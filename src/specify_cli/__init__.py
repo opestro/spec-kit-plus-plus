@@ -355,7 +355,7 @@ BANNER = """
 ╚══════╝╚═╝     ╚══════╝ ╚═════╝╚═╝╚═╝        ╚═╝   
 """
 
-TAGLINE = "GitHub Spec Kit - Spec-Driven Development Toolkit"
+TAGLINE = "GitHub Spec Kit++ — Skills-Powered, Smarter Spec-Driven Development  ·  enhanced by oprestro"
 class StepTracker:
     """Track and render hierarchical steps without emojis, similar to Claude Code tree output.
     Supports live auto-refresh via an attached refresh callback.
@@ -567,6 +567,7 @@ def show_banner():
 
     console.print(Align.center(styled_banner))
     console.print(Align.center(Text(TAGLINE, style="italic bright_yellow")))
+    console.print(Align.center(Text("specify++", style="bold magenta")))
     console.print()
 
 @app.callback()
@@ -574,7 +575,7 @@ def callback(ctx: typer.Context):
     """Show banner when no subcommand is provided."""
     if ctx.invoked_subcommand is None and "--help" not in sys.argv and "-h" not in sys.argv:
         show_banner()
-        console.print(Align.center("[dim]Run 'specify --help' for usage information[/dim]"))
+        console.print(Align.center("[dim]Run 'specify++ --help' for usage information[/dim]"))
         console.print()
 
 def run_command(cmd: list[str], check_return: bool = True, capture: bool = False, shell: bool = False) -> Optional[str]:
@@ -2376,6 +2377,7 @@ def init(
     steps_lines.append(f"   {step_num}.3 [cyan]{_display_cmd('plan')}[/] - Create implementation plan")
     steps_lines.append(f"   {step_num}.4 [cyan]{_display_cmd('tasks')}[/] - Generate actionable tasks")
     steps_lines.append(f"   {step_num}.5 [cyan]{_display_cmd('implement')}[/] - Execute implementation")
+    steps_lines.append(f"   {step_num}.6 [cyan]{_display_cmd('verify')}[/] - Review code, run tests & validate endpoints")
 
     steps_panel = Panel("\n".join(steps_lines), title="Next Steps", border_style="cyan", padding=(1,2))
     console.print()
@@ -2392,6 +2394,7 @@ def init(
         f"○ [cyan]{_display_cmd('clarify')}[/] [bright_black](optional)[/bright_black] - Ask structured questions to de-risk ambiguous areas before planning (run before [cyan]{_display_cmd('plan')}[/] if used)",
         f"○ [cyan]{_display_cmd('analyze')}[/] [bright_black](optional)[/bright_black] - Cross-artifact consistency & alignment report (after [cyan]{_display_cmd('tasks')}[/], before [cyan]{_display_cmd('implement')}[/])",
         f"○ [cyan]{_display_cmd('checklist')}[/] [bright_black](optional)[/bright_black] - Generate quality checklists to validate requirements completeness, clarity, and consistency (after [cyan]{_display_cmd('plan')}[/])",
+        f"○ [cyan]{_display_cmd('verify')}[/] [bright_black](optional)[/bright_black] - Verify the implementation — review generated code quality, run tests, and validate endpoints (backend) or UI flows (frontend, if e2e tooling exists)",
         f"○ [cyan]{_display_cmd('ui')}[/] [bright_black](optional)[/bright_black] - Build or audit the UI component kit — discover the design system and scaffold base components",
         f"○ [cyan]{_display_cmd('skills')}[/] [bright_black](optional)[/bright_black] - Find and install agent skills for frameworks, tools, and workflows",
     ]
