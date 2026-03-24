@@ -36,7 +36,7 @@ import json5
 import stat
 import yaml
 from pathlib import Path
-from typing import Any, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 import typer
 import httpx
@@ -347,15 +347,15 @@ SCRIPT_TYPE_CHOICES = {"sh": "POSIX Shell (bash/zsh)", "ps": "PowerShell"}
 CLAUDE_LOCAL_PATH = Path.home() / ".claude" / "local" / "claude"
 
 BANNER = """
-███████╗██████╗ ███████╗ ██████╗██╗███████╗██╗   ██╗
-██╔════╝██╔══██╗██╔════╝██╔════╝██║██╔════╝╚██╗ ██╔╝
-███████╗██████╔╝█████╗  ██║     ██║█████╗   ╚████╔╝ 
-╚════██║██╔═══╝ ██╔══╝  ██║     ██║██╔══╝    ╚██╔╝  
-███████║██║     ███████╗╚██████╗██║██║        ██║   
-╚══════╝╚═╝     ╚══════╝ ╚═════╝╚═╝╚═╝        ╚═╝   
+███████╗██████╗ ███████╗ ██████╗██╗███████╗██╗   ██╗    ██╗      ██╗
+██╔════╝██╔══██╗██╔════╝██╔════╝██║██╔════╝╚██╗ ██╔╝    ██║      ██║
+███████╗██████╔╝█████╗  ██║     ██║█████╗   ╚████╔╝  ████████╗████████╗
+╚════██║██╔═══╝ ██╔══╝  ██║     ██║██╔══╝    ╚██╔╝   ╚══██╔══╝╚══██╔══╝
+███████║██║     ███████╗╚██████╗██║██║        ██║       ██║      ██║
+╚══════╝╚═╝     ╚══════╝ ╚═════╝╚═╝╚═╝        ╚═╝       ╚═╝      ╚═╝
 """
 
-TAGLINE = "GitHub Spec Kit - Spec-Driven Development Toolkit"
+TAGLINE = "GitHub Spec Kit++ — Skills-Powered, Smarter Spec-Driven Development · enhanced by GitHub /oprestro"
 class StepTracker:
     """Track and render hierarchical steps without emojis, similar to Claude Code tree output.
     Supports live auto-refresh via an attached refresh callback.
@@ -574,7 +574,7 @@ def callback(ctx: typer.Context):
     """Show banner when no subcommand is provided."""
     if ctx.invoked_subcommand is None and "--help" not in sys.argv and "-h" not in sys.argv:
         show_banner()
-        console.print(Align.center("[dim]Run 'specify --help' for usage information[/dim]"))
+        console.print(Align.center("[dim]Run 'specify++ --help' for usage information[/dim]"))
         console.print()
 
 def run_command(cmd: list[str], check_return: bool = True, capture: bool = False, shell: bool = False) -> Optional[str]:
@@ -1782,6 +1782,7 @@ def init(
     offline: bool = typer.Option(False, "--offline", help="Use assets bundled in the specify-cli package instead of downloading from GitHub (no network access required). Bundled assets will become the default in v0.6.0 and this flag will be removed."),
     preset: str = typer.Option(None, "--preset", help="Install a preset during initialization (by preset ID)"),
     branch_numbering: str = typer.Option(None, "--branch-numbering", help="Branch numbering strategy: 'sequential' (001, 002, ...) or 'timestamp' (YYYYMMDD-HHMMSS)"),
+    framework: Optional[List[str]] = typer.Option(None, "--framework", help="Framework(s) to inject rules for: vue, react, fastapi, etc. Repeat to select multiple: --framework vue --framework fastapi"),
 ):
     """
     Initialize a new Specify project.
@@ -1983,6 +1984,49 @@ def init(
     console.print(f"[cyan]Selected AI assistant:[/cyan] {selected_ai}")
     console.print(f"[cyan]Selected script type:[/cyan] {selected_script}")
 
+    # ── Framework selection ────────────────────────────────────────────────
+    from .frameworks import (
+        FRAMEWORK_REGISTRY,
+        get_available_frameworks,
+        select_frameworks_interactive,
+        inject_framework_rules,
+        install_framework_skills,
+        _locate_frameworks_dir,
+    )
+
+    selected_frameworks: list[str] = list(framework or [])
+
+    if selected_frameworks:
+        # Validate any --framework values passed on the CLI
+        invalid = [f for f in selected_frameworks if f not in FRAMEWORK_REGISTRY]
+        if invalid:
+            valid_fw = ", ".join(sorted(FRAMEWORK_REGISTRY.keys()))
+            console.print(f"[red]Error:[/red] Unknown framework(s): {', '.join(invalid)}")
+            console.print(f"[yellow]Available:[/yellow] {valid_fw}")
+            raise typer.Exit(1)
+        # Filter to only those with available rules
+        _fw_dir = _locate_frameworks_dir()
+        if _fw_dir:
+            selected_frameworks = [
+                f for f in selected_frameworks
+                if (_fw_dir / FRAMEWORK_REGISTRY[f]["rules_file"]).exists()
+            ]
+    else:
+        # Interactive multi-select when no --framework was passed
+        if sys.stdin.isatty():
+            _fw_dir = _locate_frameworks_dir()
+            available_fws = get_available_frameworks(_fw_dir) if _fw_dir else []
+            if available_fws:
+                selected_frameworks = select_frameworks_interactive(available_fws)
+
+    if selected_frameworks:
+        fw_names = ", ".join(
+            FRAMEWORK_REGISTRY.get(f, {}).get("name", f) for f in selected_frameworks
+        )
+        console.print(f"[cyan]Selected frameworks:[/cyan] {fw_names}")
+    else:
+        console.print("[dim]No frameworks selected[/dim]")
+
     tracker = StepTracker("Initialize Specify Project")
 
     sys._specify_tracker_active = True
@@ -2030,6 +2074,8 @@ def init(
         tracker.add(key, label)
     if ai_skills:
         tracker.add("ai-skills", "Install agent skills")
+    if selected_frameworks:
+        tracker.add("frameworks", "Inject framework rules")
     for key, label in [
         ("cleanup", "Cleanup"),
         ("git", "Initialize git repository"),
@@ -2145,6 +2191,37 @@ def init(
                                     # so leaving stale commands is non-fatal.
                                     console.print("[yellow]Warning: could not remove extracted commands directory[/yellow]")
 
+            if selected_frameworks:
+                if tracker:
+                    tracker.start("frameworks")
+                
+                # Find the agent context / rules file to inject framework rules into.
+                # Common names: AGENTS.md, CLAUDE.md, copilot-instructions.md, etc.
+                _agent_rules_candidates = [
+                    "AGENTS.md",
+                    "CLAUDE.md",
+                    ".github/copilot-instructions.md",
+                    ".cursorrules",
+                ]
+                agent_rules_path = None
+                for candidate in _agent_rules_candidates:
+                    p = project_path / candidate
+                    if p.exists():
+                        agent_rules_path = p
+                        break
+                
+                # Fallback: create AGENTS.md if nothing found
+                if not agent_rules_path:
+                    agent_rules_path = project_path / "AGENTS.md"
+
+                injected = inject_framework_rules(agent_rules_path, selected_frameworks, _fw_dir)
+                installed_skills = install_framework_skills(selected_ai, selected_frameworks, project_path, _fw_dir)
+                
+                if tracker:
+                    tracker.complete("frameworks", f"{len(selected_frameworks)} framework(s) configured")
+                elif not sys.stdin.isatty():
+                    console.print(f"[green]✓[/green] Injected framework rules into {agent_rules_path.name}")
+
             if not no_git:
                 tracker.start("git")
                 if is_git_repo(project_path):
@@ -2174,6 +2251,7 @@ def init(
                 "offline": offline,
                 "script": selected_script,
                 "speckit_version": get_speckit_version(),
+                "frameworks": selected_frameworks,
             })
 
             # Install preset if specified
@@ -2298,6 +2376,7 @@ def init(
     steps_lines.append(f"   {step_num}.3 [cyan]{_display_cmd('plan')}[/] - Create implementation plan")
     steps_lines.append(f"   {step_num}.4 [cyan]{_display_cmd('tasks')}[/] - Generate actionable tasks")
     steps_lines.append(f"   {step_num}.5 [cyan]{_display_cmd('implement')}[/] - Execute implementation")
+    steps_lines.append(f"   {step_num}.6 [cyan]{_display_cmd('verify')}[/] - Review code, run tests & validate endpoints")
 
     steps_panel = Panel("\n".join(steps_lines), title="Next Steps", border_style="cyan", padding=(1,2))
     console.print()
@@ -2313,7 +2392,10 @@ def init(
         "",
         f"○ [cyan]{_display_cmd('clarify')}[/] [bright_black](optional)[/bright_black] - Ask structured questions to de-risk ambiguous areas before planning (run before [cyan]{_display_cmd('plan')}[/] if used)",
         f"○ [cyan]{_display_cmd('analyze')}[/] [bright_black](optional)[/bright_black] - Cross-artifact consistency & alignment report (after [cyan]{_display_cmd('tasks')}[/], before [cyan]{_display_cmd('implement')}[/])",
-        f"○ [cyan]{_display_cmd('checklist')}[/] [bright_black](optional)[/bright_black] - Generate quality checklists to validate requirements completeness, clarity, and consistency (after [cyan]{_display_cmd('plan')}[/])"
+        f"○ [cyan]{_display_cmd('checklist')}[/] [bright_black](optional)[/bright_black] - Generate quality checklists to validate requirements completeness, clarity, and consistency (after [cyan]{_display_cmd('plan')}[/])",
+        f"○ [cyan]{_display_cmd('verify')}[/] [bright_black](optional)[/bright_black] - Verify the implementation — review generated code quality, run tests, and validate endpoints (backend) or UI flows (frontend, if e2e tooling exists)",
+        f"○ [cyan]{_display_cmd('ui')}[/] [bright_black](optional)[/bright_black] - Build or audit the UI component kit — discover the design system and scaffold base components",
+        f"○ [cyan]{_display_cmd('skills')}[/] [bright_black](optional)[/bright_black] - Find and install agent skills for frameworks, tools, and workflows",
     ]
     enhancements_title = "Enhancement Skills" if native_skill_mode else "Enhancement Commands"
     enhancements_panel = Panel("\n".join(enhancement_lines), title=enhancements_title, border_style="cyan", padding=(1,2))

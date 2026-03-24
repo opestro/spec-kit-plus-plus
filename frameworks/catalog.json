@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-03-24T00:00:00Z",
+  "frameworks": {
+    "vue": {
+      "name": "Vue.js",
+      "description": "Vue 3 + TypeScript + TailwindCSS v4 + Vue Router + Pinia + Pinia Colada best practices",
+      "type": "frontend",
+      "rules_file": "vue/rules.md",
+      "skills": [
+        "vue/skills/pages"
+      ],
+      "source": "https://github.com/posva/vue-rulekit"
+    },
+    "nuxt": {
+      "name": "Nuxt",
+      "description": "Nuxt 3 full-stack framework built on Vue 3",
+      "type": "frontend",
+      "rules_file": "nuxt/rules.md",
+      "skills": [],
+      "source": null,
+      "status": "coming-soon"
+    },
+    "react": {
+      "name": "React",
+      "description": "React + TypeScript + TailwindCSS best practices",
+      "type": "frontend",
+      "rules_file": "react/rules.md",
+      "skills": [],
+      "source": null,
+      "status": "coming-soon"
+    },
+    "fastapi": {
+      "name": "FastAPI",
+      "description": "Python FastAPI backend best practices",
+      "type": "backend",
+      "rules_file": "fastapi/rules.md",
+      "skills": [],
+      "source": null,
+      "status": "coming-soon"
+    },
+    "express": {
+      "name": "Express / Node.js",
+      "description": "Node.js with Express or Fastify backend best practices",
+      "type": "backend",
+      "rules_file": "express/rules.md",
+      "skills": [],
+      "source": null,
+      "status": "coming-soon"
+    },
+    "django": {
+      "name": "Django",
+      "description": "Python Django backend best practices",
+      "type": "backend",
+      "rules_file": "django/rules.md",
+      "skills": [],
+      "source": null,
+      "status": "coming-soon"
+    }
+  }
+}

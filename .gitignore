@@ -45,8 +45,10 @@ env/
 *.zip
 sdd-*/
 docs/dev
-
+.kilocode/
+.specify/
 # Extension system
 .specify/extensions/.cache/
 .specify/extensions/.backup/
 .specify/extensions/*/local-config.yml
+vue-rulekit/*
