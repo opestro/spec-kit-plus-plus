@@ -2,12 +2,12 @@
 
 ## How to get help
 
-Please search existing [issues](https://github.com/github/spec-kit/issues) and [discussions](https://github.com/github/spec-kit/discussions) before creating new ones to avoid duplicates.
+Please search existing [issues](https://github.com/opestro/spec-kit-plus-plus/issues) and [discussions](https://github.com/opestro/spec-kit-plus-plus/discussions) before creating new ones to avoid duplicates.
 
 - Review the [README](./README.md) for getting started instructions and troubleshooting tips
 - Check the [comprehensive guide](./spec-driven.md) for detailed documentation on the Spec-Driven Development process
-- Ask in [GitHub Discussions](https://github.com/github/spec-kit/discussions) for questions about using Spec Kit or the Spec-Driven Development methodology
-- Open a [GitHub issue](https://github.com/github/spec-kit/issues/new) for bug reports and feature requests
+- Ask in [GitHub Discussions](https://github.com/opestro/spec-kit-plus-plus/discussions) for questions about using Spec Kit or the Spec-Driven Development methodology
+- Open a [GitHub issue](https://github.com/opestro/spec-kit-plus-plus/issues/new) for bug reports and feature requests
 
 ## Project Status
 

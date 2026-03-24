@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "updated_at": "2026-03-19T12:08:20Z",
-  "catalog_url": "https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json",
+  "catalog_url": "https://raw.githubusercontent.com/opestro/spec-kit-plus-plus/main/extensions/catalog.community.json",
   "extensions": {
     "archive": {
       "name": "Archive Extension",
