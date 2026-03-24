@@ -347,15 +347,15 @@ SCRIPT_TYPE_CHOICES = {"sh": "POSIX Shell (bash/zsh)", "ps": "PowerShell"}
 CLAUDE_LOCAL_PATH = Path.home() / ".claude" / "local" / "claude"
 
 BANNER = """
-███████╗██████╗ ███████╗ ██████╗██╗███████╗██╗   ██╗
-██╔════╝██╔══██╗██╔════╝██╔════╝██║██╔════╝╚██╗ ██╔╝
-███████╗██████╔╝█████╗  ██║     ██║█████╗   ╚████╔╝ 
-╚════██║██╔═══╝ ██╔══╝  ██║     ██║██╔══╝    ╚██╔╝  
-███████║██║     ███████╗╚██████╗██║██║        ██║   
-╚══════╝╚═╝     ╚══════╝ ╚═════╝╚═╝╚═╝        ╚═╝   
+███████╗██████╗ ███████╗ ██████╗██╗███████╗██╗   ██╗    ██╗      ██╗
+██╔════╝██╔══██╗██╔════╝██╔════╝██║██╔════╝╚██╗ ██╔╝    ██║      ██║
+███████╗██████╔╝█████╗  ██║     ██║█████╗   ╚████╔╝  ████████╗████████╗
+╚════██║██╔═══╝ ██╔══╝  ██║     ██║██╔══╝    ╚██╔╝   ╚══██╔══╝╚══██╔══╝
+███████║██║     ███████╗╚██████╗██║██║        ██║       ██║      ██║
+╚══════╝╚═╝     ╚══════╝ ╚═════╝╚═╝╚═╝        ╚═╝       ╚═╝      ╚═╝
 """
 
-TAGLINE = "GitHub Spec Kit++ — Skills-Powered, Smarter Spec-Driven Development  ·  enhanced by oprestro"
+TAGLINE = "GitHub Spec Kit++ — Skills-Powered, Smarter Spec-Driven Development · enhanced by GitHub /oprestro"
 class StepTracker:
     """Track and render hierarchical steps without emojis, similar to Claude Code tree output.
     Supports live auto-refresh via an attached refresh callback.
@@ -567,7 +567,6 @@ def show_banner():
 
     console.print(Align.center(styled_banner))
     console.print(Align.center(Text(TAGLINE, style="italic bright_yellow")))
-    console.print(Align.center(Text("specify++", style="bold magenta")))
     console.print()
 
 @app.callback()
