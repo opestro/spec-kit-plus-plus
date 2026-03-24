@@ -61,6 +61,8 @@ The text the user typed after `/speckit.specify` in the triggering message **is*
 
 Given that feature description, do this:
 
+    **IMPORTANT — Framework Rules**: Before proceeding, check if your system prompt or agent context file contains a `<!-- spec-kit:framework-rules:start -->` block or a `## Framework Rules` section. If it does, you **MUST** ensure the generated specification respects the patterns, structure, and standards dictated by those framework rules.
+
 1. **Generate a concise short name** (2-4 words) for the branch:
    - Analyze the feature description and extract the most meaningful keywords
    - Create a 2-4 word short name that captures the essence of the feature
