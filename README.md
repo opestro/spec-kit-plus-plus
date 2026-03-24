@@ -1,7 +1,8 @@
 <div align="center">
     <img src="./media/logo_large.webp" alt="Spec Kit Logo" width="200" height="200"/>
-    <h1>🌱 Spec Kit</h1>
-    <h3><em>Build high-quality software faster.</em></h3>
+    <h1>🌱 Spec Kit++</h1>
+    <h3><em>Skills-Powered, Smarter Spec-Driven Development</em></h3>
+    <p><em>enhanced by oprestro</em></p>
 </div>
 
 <p align="center">
@@ -9,9 +10,9 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/github/spec-kit/actions/workflows/release.yml"><img src="https://github.com/github/spec-kit/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
-    <a href="https://github.com/github/spec-kit/stargazers"><img src="https://img.shields.io/github/stars/github/spec-kit?style=social" alt="GitHub stars"/></a>
-    <a href="https://github.com/github/spec-kit/blob/main/LICENSE"><img src="https://img.shields.io/github/license/github/spec-kit" alt="License"/></a>
+    <a href="https://github.com/opestro/spec-kit-plus-plus/actions/workflows/release.yml"><img src="https://github.com/opestro/spec-kit-plus-plus/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
+    <a href="https://github.com/opestro/spec-kit-plus-plus/stargazers"><img src="https://img.shields.io/github/stars/opestro/spec-kit-plus-plus?style=social" alt="GitHub stars"/></a>
+    <a href="https://github.com/opestro/spec-kit-plus-plus/blob/main/LICENSE"><img src="https://img.shields.io/github/license/opestro/spec-kit-plus-plus" alt="License"/></a>
     <a href="https://github.github.io/spec-kit/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
 </p>
 
@@ -49,14 +50,14 @@ Choose your preferred installation method:
 
 #### Option 1: Persistent Installation (Recommended)
 
-Install once and use everywhere. Pin a specific release tag for stability (check [Releases](https://github.com/github/spec-kit/releases) for the latest):
+Install once and use everywhere. Pin a specific release tag for stability (check [Releases](https://github.com/opestro/spec-kit-plus-plus/releases) for the latest):
 
 ```bash
 # Install a specific stable release (recommended — replace vX.Y.Z with the latest tag)
-uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+uv tool install specify-cli --from git+https://github.com/opestro/spec-kit-plus-plus.git@vX.Y.Z
 
 # Or install latest from main (may include unreleased changes)
-uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+uv tool install specify-cli --from git+https://github.com/opestro/spec-kit-plus-plus.git
 ```
 
 Then use the tool directly:
@@ -77,7 +78,7 @@ specify check
 To upgrade Specify, see the [Upgrade Guide](./docs/upgrade.md) for detailed instructions. Quick upgrade:
 
 ```bash
-uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+uv tool install specify-cli --force --from git+https://github.com/opestro/spec-kit-plus-plus.git@vX.Y.Z
 ```
 
 #### Option 2: One-time Usage
@@ -86,12 +87,12 @@ Run directly without installing:
 
 ```bash
 # Create new project (pinned to a stable release — replace vX.Y.Z with the latest tag)
-uvx --from git+https://github.com/github/spec-kit.git@vX.Y.Z specify init <PROJECT_NAME>
+uvx --from git+https://github.com/opestro/spec-kit-plus-plus.git@vX.Y.Z specify init <PROJECT_NAME>
 
 # Or initialize in existing project
-uvx --from git+https://github.com/github/spec-kit.git@vX.Y.Z specify init . --ai claude
+uvx --from git+https://github.com/opestro/spec-kit-plus-plus.git@vX.Y.Z specify init . --ai claude
 # or
-uvx --from git+https://github.com/github/spec-kit.git@vX.Y.Z specify init --here --ai claude
+uvx --from git+https://github.com/opestro/spec-kit-plus-plus.git@vX.Y.Z specify init --here --ai claude
 ```
 
 **Benefits of persistent installation:**
@@ -224,6 +225,7 @@ The `specify` command supports the following options:
 | `--ai`                 | Option   | AI assistant to use (see `AGENT_CONFIG` for the full, up-to-date list). Common options include: `claude`, `gemini`, `copilot`, `cursor-agent`, `qwen`, `opencode`, `codex`, `windsurf`, `junie`, `kilocode`, `auggie`, `roo`, `codebuddy`, `amp`, `shai`, `kiro-cli` (`kiro` alias), `agy`, `bob`, `qodercli`, `vibe`, `kimi`, `iflow`, `pi`, or `generic` (requires `--ai-commands-dir`) |
 | `--ai-commands-dir`    | Option   | Directory for agent command files (required with `--ai generic`, e.g. `.myagent/commands/`)                                                                                                                                                                                                                                                                                               |
 | `--script`             | Option   | Script variant to use: `sh` (bash/zsh) or `ps` (PowerShell)                                                                                                                                                                                                                                                                                                                               |
+| `--framework`          | Option   | Interactive framework selection (e.g. `vue`, `react`, etc.) to inject framework-specific best practices into the agent's context                                                                                                                                                                                          |
 | `--ignore-agent-tools` | Flag     | Skip checks for AI agent tools like Claude Code                                                                                                                                                                                                                                                                                                                                           |
 | `--no-git`             | Flag     | Skip git repository initialization                                                                                                                                                                                                                                                                                                                                                        |
 | `--here`               | Flag     | Initialize project in the current directory instead of creating a new one                                                                                                                                                                                                                                                                                                                 |
@@ -279,6 +281,9 @@ specify init my-project --ai agy --ai-skills
 # Initialize with an unsupported agent (generic / bring your own agent)
 specify init my-project --ai generic --ai-commands-dir .myagent/commands/
 
+# Initialize with framework support (e.g. Vue.js)
+specify init my-project --ai claude --framework vue
+
 # Initialize with PowerShell scripts (Windows/cross-platform)
 specify init my-project --ai copilot --script ps
 
@@ -331,6 +336,7 @@ Essential commands for the Spec-Driven Development workflow:
 | `/speckit.plan`         | Create technical implementation plans with your chosen tech stack        |
 | `/speckit.tasks`        | Generate actionable task lists for implementation                        |
 | `/speckit.implement`    | Execute all tasks to build the feature according to the plan             |
+| `/speckit.verify`       | Verify implementation — review code, run tests, and validate endpoints   |
 
 #### Optional Commands
 
@@ -341,6 +347,8 @@ Additional commands for enhanced quality and validation:
 | `/speckit.clarify`   | Clarify underspecified areas (recommended before `/speckit.plan`; formerly `/quizme`)                                                |
 | `/speckit.analyze`   | Cross-artifact consistency & coverage analysis (run after `/speckit.tasks`, before `/speckit.implement`)                             |
 | `/speckit.checklist` | Generate custom quality checklists that validate requirements completeness, clarity, and consistency (like "unit tests for English") |
+| `/speckit.ui`        | Build or audit the UI component kit — discover design systems and scaffold components                                                |
+| `/speckit.skills`    | Find and install agent skills for frameworks, tools, and workflows                                                                   |
 
 ### Environment Variables
 
@@ -774,7 +782,7 @@ rm gcm-linux_amd64.2.6.1.deb
 
 ## 💬 Support
 
-For support, please open a [GitHub issue](https://github.com/github/spec-kit/issues/new). We welcome bug reports, feature requests, and questions about using Spec-Driven Development.
+For support, please open a [GitHub issue](https://github.com/opestro/spec-kit-plus-plus/issues/new). We welcome bug reports, feature requests, and questions about using Spec-Driven Development.
 
 ## 🙏 Acknowledgements
 

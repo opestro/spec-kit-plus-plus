@@ -487,7 +487,7 @@ You can also edit `.specify/extension-catalogs.yml` directly:
 ```yaml
 catalogs:
   - name: "default"
-    url: "https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.json"
+    url: "https://raw.githubusercontent.com/opestro/spec-kit-plus-plus/main/extensions/catalog.json"
     priority: 1
     install_allowed: true
     description: "Built-in catalog of installable extensions"
@@ -499,7 +499,7 @@ catalogs:
     description: "Internal company extensions"
 
   - name: "community"
-    url: "https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json"
+    url: "https://raw.githubusercontent.com/opestro/spec-kit-plus-plus/main/extensions/catalog.community.json"
     priority: 3
     install_allowed: false
     description: "Community-contributed extensions (discovery only)"

@@ -1,6 +1,12 @@
 name: Release Trigger
 
 on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'pyproject.toml'
+      - 'CHANGELOG.md'
   workflow_dispatch:
     inputs:
       version:

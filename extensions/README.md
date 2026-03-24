@@ -1,6 +1,6 @@
 # Spec Kit Extensions
 
-Extension system for [Spec Kit](https://github.com/github/spec-kit) - add new functionality without bloating the core framework.
+Extension system for [Spec Kit](https://github.com/opestro/spec-kit-plus-plus) - add new functionality without bloating the core framework.
 
 ## Extension Catalogs
 
