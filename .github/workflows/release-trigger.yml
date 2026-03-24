@@ -50,7 +50,11 @@ jobs:
             echo "Using manual version: $VERSION"
           else
             # Auto-increment patch version
-            LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+            # Get the latest tag by sorting all version tags numerically, avoiding git describe constraints
+            LATEST_TAG=$(git tag -l 'v*' --sort=-version:refname | head -n 1 2>/dev/null)
+            if [ -z "$LATEST_TAG" ]; then
+              LATEST_TAG="v0.0.0"
+            fi
             echo "Latest tag: $LATEST_TAG"
 
             # Extract version number and increment
