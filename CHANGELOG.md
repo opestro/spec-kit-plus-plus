@@ -6,6 +6,13 @@
 
 - fix(cli): add allow_unicode=True and encoding="utf-8" to YAML I/O (#1936)
 - fix(codex): native skills fallback refresh + legacy prompt suppression (#1930)
+
+## [0.4.2] - 2026-03-25
+
+### Changes
+
+- feat(cli): add speckit.quick fast-path command for single-step feature implementation
+
 - feat(cli): embed core pack in wheel for offline/air-gapped deployment (#1803)
 - ci: increase stale workflow operations-per-run to 250 (#1922)
 - docs: update publishing guide with Category and Effect columns (#1913)
